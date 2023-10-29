@@ -16,10 +16,12 @@
 # あなたの勝ちです！
 # ブラックジャックを終了します。]
 class Deck
-  attr_accessor :shuffle_deck, :s_rank
+  attr_accessor 
   def initialize
     @s_rank = []
     @deck = []
+    @pint = 0
+    @dint = 0
   end
   def deckmake
     ranks = [2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K", "A"]
@@ -32,8 +34,18 @@ class Deck
     end
   end
 
-  def shuffle
-    @deck.shuffle
+  def shuff
+    @deck.shuffle!
+  end
+
+  def pdraw(hand)
+      @pint += 1
+      hand.player_hand <<  @deck[@pint]
+  end
+
+  def ddraw(hand)
+      @dint -= 1
+      hand.dealer_hand << @deck[@dint]
   end
 
 end
@@ -55,8 +67,8 @@ end
 class DealerHand
   attr_accessor :deal_card, :dealer_hand, :n
   def initialize
-    @dealer_hand = 0
-    @dealer_card = []
+    @dealer_hand = []
+    @dealer_card = 0
     @n = 0
   end
   def loop
@@ -77,8 +89,8 @@ end
 class PlayerHand
   attr_accessor :player_card, :player_hand, :m
   def initialize
-    @player_hand = 0
-    @player_card = []
+    @player_hand = []
+    @player_score = 0
     @m = 0
   end
   def loop
@@ -97,5 +109,12 @@ class PlayerHand
 end
 
 deck = Deck.new
+phand = PlayerHand.new
+dhand = DealerHand.new
+
 deck.deckmake
-p deck.shuffle
+deck.shuff
+p deck.pdraw(phand)
+p deck.pdraw(phand)
+p deck.ddraw(dhand)
+p deck.ddraw(dhand)
